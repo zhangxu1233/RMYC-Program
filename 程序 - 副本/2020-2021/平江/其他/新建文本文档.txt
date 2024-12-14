@@ -1,0 +1,57 @@
+if list_Linelist[1] >= 9:     #找到线
+            if list_Linelist[2] >= 1:    #识别到线
+
+def user_defined_xunxian():
+    global variable_x
+    global variable_va
+    global variable_k
+    global variable_v
+    global variable_y
+    global variable_jiishu
+    global variable_zhuanwan
+    global variable_xiuzheng
+    global variable_yxiuzheng
+    global list_Linelist
+    global list_marklist
+    global list_zhunxing
+    global pid_f_l
+    variable_x = list_Linelist[19 + -4]
+    pid_f_l.set_error(variable_x - 0.5)
+    gimbal_ctrl.rotate_with_speed(pid_f_l.get_output(),0)
+    variable_v = variable_va - variable_k * abs(list_Linelist[37] / 180)
+    chassis_ctrl.set_trans_speed(variable_v)
+    chassis_ctrl.move(0)
+    list_marklist=RmList(vision_ctrl.get_marker_detection_info())
+
+
+variable_hangxiang = 0
+variable_fuyang = 0
+variable_fangun = 0
+variable_x = 0
+variable_y = 0
+variable_chaoxiang = 0
+def start():
+    global variable_hangxiang
+    global variable_fuyang
+    global variable_fangun
+    global variable_x
+    global variable_y
+    global variable_chaoxiang
+    time.sleep(1)
+    chassis_ctrl.enable_stick_overlay()
+    chassis_ctrl.set_trans_speed(3.5)
+    chassis_ctrl.move_with_distance(-45,1.5)
+    variable_x = chassis_ctrl.get_position_based_power_on(rm_define.chassis_forward)
+    variable_y = chassis_ctrl.get_position_based_power_on(rm_define.chassis_translation)
+    chassis_ctrl.set_trans_speed(0.5)
+    time.sleep(3)
+    if 1 > variable_x:
+        chassis_ctrl.move_with_distance(0,abs(1 - variable_x))
+    else:
+        chassis_ctrl.move_with_distance(180,abs(1 - variable_x))
+    if -1 > variable_y:
+        chassis_ctrl.move_with_distance(90,abs(-1 - variable_y))
+    else:
+        chassis_ctrl.move_with_distance(-90,abs(-1 - variable_y))
+    variable_x = chassis_ctrl.get_position_based_power_on(rm_define.chassis_forward)
+    variable_y = chassis_ctrl.get_position_based_power_on(rm_define.chassis_translation)
